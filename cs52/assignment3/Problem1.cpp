@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
 
-    // read in integer from standard input
+  // read in integer from standard input
   int input;
   cout << "Enter number 1 - 10 please." << '\n';
   cout << "input: ";
@@ -23,7 +23,7 @@ int main()
 
   cout << "output: ";
 
-  //outputs number of #'s relative to the number inputted
+  //outputs number of #'s along one line
   for (int i = 1; i <= input; i++)
   {
     cout << "#";
