@@ -70,4 +70,3 @@ int main(int argc, char *argv[])
 	}
 }//main
 
-//while loop for invalidation(not just in total but if someone one messes up input for "physics" mark for example and puts in a letter; not start everything over)
