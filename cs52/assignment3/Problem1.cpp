@@ -6,12 +6,15 @@
 using namespace std;
 int main()
 {
+
+    // read in integer from standard input
   int input;
   cout << "Enter number 1 - 10 please." << '\n';
   cout << "input: ";
   cin >> input;
 
-  while ((input < 1) || (input > 10))//check for input being less than 1 or greater than 10
+  //check for input being less than 1 or greater than 10
+  while ((input < 1) || (input > 10))
   {
     cout << "Try again!" << '\n';
     cout << "input: ";
@@ -20,7 +23,8 @@ int main()
 
   cout << "output: ";
 
-  for (int i = 1; i <= input; i++)//outputs number of #'s relative to the number inputted
+  //outputs number of #'s relative to the number inputted
+  for (int i = 1; i <= input; i++)
   {
     cout << "#";
   }
