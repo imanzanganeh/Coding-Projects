@@ -19,14 +19,7 @@ int main()
   int userInput1;
   int userInput2;
   int userInput3;
-
-  cout << "Enter an integer: ";
-  cin >> userInput1;
-  cout << "Enter an integer: ";
-  cin >> userInput2;
-  cout << "Enter an integer: ";
-  cin >> userInput3;
- 
+  
   userCheck(userInput1, userInput2, userInput3);
   largestNum(userInput1, userInput2, userInput3);
 
@@ -35,35 +28,34 @@ int main()
 
 void userCheck(int& input1, int& input2, int& input3)
 {   
-  if ((input1 <= 0) || (input2 <= 0) || (input3 <= 0))
+  
+  cout << "Enter an integer: ";
+  cin >> input1;
+  while (input1 <= 0)
     {
+      cout << "Invalid! Must be > 0" << '\n';
       cout << "Enter an integer: ";
       cin >> input1;
-      while (input1 <= 0)
-	{
-	  cout << "Invalid! Must be > 0" << '\n';
-	  cout << "Enter an integer: ";
-	  cin >> input1;
-	}
-
-     cout << "Enter an integer: ";
-     cin >> input2;
-     while (input2 <= 0)
-       {
-	 cout << "Invalid! Must be > 0" << '\n';
-	 cout << "Enter an integer: ";
-	 cin >> input2;
-       }
-
-     cout << "Enter an integer: ";
-     cin >> input3;
-     while (input3 <= 0)
-       {
-	 cout << "Invalid! Must be > 0" << '\n';
-	 cout << "Enter an integer: ";
-	 cin >> input3;
-       }
     }
+  
+  cout << "Enter an integer: ";
+  cin >> input2;
+  while (input2 <= 0)
+    {
+      cout << "Invalid! Must be > 0" << '\n';
+      cout << "Enter an integer: ";
+      cin >> input2;
+    }
+  
+  cout << "Enter an integer: ";
+  cin >> input3;
+  while (input3 <= 0)
+    {
+      cout << "Invalid! Must be > 0" << '\n';
+      cout << "Enter an integer: ";
+      cin >> input3;
+    }
+  
   return;
 }//end of userCheck function
 
