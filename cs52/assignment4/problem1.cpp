@@ -34,27 +34,36 @@ int main()
 }//main
 
 void userCheck(int& input1, int& input2, int& input3)
-{
-  while ((input1 <= 0) || (input2 <= 0) || (input3 <= 0))
-    {      
-      if ((input1 <= 0) || (input2 <= 0) || (input3 <= 0))
+{   
+  if ((input1 <= 0) || (input2 <= 0) || (input3 <= 0))
+    {
+      cout << "Enter an integer: ";
+      cin >> input1;
+      while (input1 <= 0)
 	{
 	  cout << "Invalid! Must be > 0" << '\n';
-	  
 	  cout << "Enter an integer: ";
 	  cin >> input1;
-	  cout << "Enter an integer: ";
-	  cin >> input2;
-	  cout << "Enter an integer: ";
-	  cin >> input3;
 	}
-       
-      else
-	{
-	  break;
-	}
-    }//while loop
-  
+
+     cout << "Enter an integer: ";
+     cin >> input2;
+     while (input2 <= 0)
+       {
+	 cout << "Invalid! Must be > 0" << '\n';
+	 cout << "Enter an integer: ";
+	 cin >> input2;
+       }
+
+     cout << "Enter an integer: ";
+     cin >> input3;
+     while (input3 <= 0)
+       {
+	 cout << "Invalid! Must be > 0" << '\n';
+	 cout << "Enter an integer: ";
+	 cin >> input3;
+       }
+    }
   return;
 }//end of userCheck function
 
