@@ -11,44 +11,44 @@ public:
   virtual double area() = 0;
 };
 
-//Class declaration and definition for Area of a diamond derived from base class Shape. Consider the diamond cut into 4 triangles each with a base and height
+//Class declaration and definition for Area of a diamond derived from base class Shape. Consider the diamond cut into 4 triangles via 2 diagonals
 class Diamond : public Shape
 {
 private:
-  double base;
-  double height;
+  double firstDiagonal;
+  double secondDiagonal;
 
 public:
-  Diamond(double base, double height)
+  Diamond(double firstDiagonal, double secondDiagonal)
   {
-    this -> base = base;
-    this -> height = height;
+    this -> firstDiagonal = firstDiagonal;
+    this -> secondDiagonal = secondDiagonal;
   }
 
-  double getBase()
+  double getFirstDiagonal()
   {
-    return base;
+    return firstDiagonal;
   }
 
-  double getHeight()
+  double getSecondDiagonal()
   {
-    return height;
+    return secondDiagonal;
   }
 
-  void setBase(double newBase)
+  void setBase(double _firstDiagonal)
   {
-    base = newBase;
+    firstDiagonal = _firstDiagonal;
   }
 
-  void setHeight(double newHeight)
+  void setHeight(double _secondDiagonal)
   {
-    height = newHeight;
+    secondDiagonal = _secondDiagonal;
   }
 
   double area()
   {
-    //Area of diamond is considered to be the !!!!!
-    return (base * height) / 2;
+    //Area of a diamond is considered to be the multiplication of it's diagonals divided by 2
+    return (firstDiagonal * secondDiagonal) / 2;
   }
 };
 
@@ -136,29 +136,30 @@ public:
 int main()
 {
   int input;
-  Shape* shapes[10];
-  int counter = 0;
-
+  Shape* shapes[10];//array that holds pointers to Shape objects
+  int counter = 0;//Keeps track of index of elements in shapes
   cout << "Press 1 to create a Diamond, 2 to create an Oval, 3 to create a Pentagon, 4 to print out the shapes created, or 5 to quit: " << endl;
   cin >> input;
 
+  //Objects used to test all classes
   Diamond shape1 = Diamond(1,2);
   Oval shape2 = Oval(2,3);
   Pentagon shape3 = Pentagon(3,4);
 
+  //execution of menu to choose which shape(s) to create and if they would like to print it  
   while (input != 5)
     {
       if (input == 1)
 	{
 	  cout << "Enter in base: ";
-	  double realBase;
-	  cin >> realBase;
+	  double realFirstDiagonal;
+	  cin >> realFirstDiagonal;
        
 	  cout << "Enter in height: ";
-	  double realHeight;
-	  cin >> realHeight;
+	  double realSecondDiagonal;
+	  cin >> realSecondDiagonal;
 
-	  shapes[counter] = new Diamond(realBase,realHeight);
+	  shapes[counter] = new Diamond(realFirstDiagonal,realSecondDiagonal);//element is a pointer to shape class that acts like a Diamond object instantiated from the Diamond class, which is a derived class to shapes
 	  counter++;
 	}
      
@@ -172,7 +173,7 @@ int main()
 	  double realMinor;
 	  cin >> realMinor;
 
-	  shapes[counter] = new Oval(realMajor, realMinor);
+	  shapes[counter] = new Oval(realMajor, realMinor);//element is a pointer to shape class that acts like a Oval object instantiated from the Oval class, which is a derived class to shapes
 	  counter++;
 	}
 
@@ -186,7 +187,7 @@ int main()
 	  double _realApothem;
 	  cin >> _realApothem;
 
-	  shapes[counter] = new Pentagon(_realSideLength, _realApothem);
+	  shapes[counter] = new Pentagon(_realSideLength, _realApothem);//element is a pointer to shape class that acts like a Pentagon object instantiated from the Pentagon class, which is a derived class to Shape
 	  counter++;
 	}
        
@@ -194,7 +195,7 @@ int main()
 	 {
 	   for (int i = 0; i < counter; i++)
 	     {
-	       cout << "Area: " << shapes[i]->area() << endl;
+	       cout << "Area: " << shapes[i] -> area() << endl;//shapes[i] -> area() is a pointer to the area() function found within the objects of the different derived classes of the base class Shape
 	     }
 	 }
        cout << "Press 1 to create a Diamond, 2 to create an Oval, 3 to create a Pentagon, 4 to print out the shapes created, or 5 to quit: " << endl;
