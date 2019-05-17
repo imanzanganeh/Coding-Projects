@@ -9,7 +9,6 @@ class Shape
 {
 public:
   virtual double area();
-  virtual void setArea();
 };
 
 //Class declaration and definition for Area of a diamond derived from base class Shape. Consider the diamond cut into 4 triangles each with a base and height
@@ -18,7 +17,6 @@ class Diamond : public Shape
 public:
   double base;
   double height;
-  double _area;
 
   Diamond(double base, double height)
   {
@@ -26,14 +24,29 @@ public:
     this -> height = height;
   }
 
-  void setArea()
+  double getBase()
   {
-    _area = 4 * base * height;//Area of diamond is the total area of 4 triangles that are created when the diamond is cut up via 2 diagonals
+    return base;
+  }
+
+  double getHeight()
+  {
+    return height;
+  }
+
+  void setBase(double newBase)
+  {
+    base = newBase;
+  }
+
+  void setHeight(double newHeight)
+  {
+    height = newHeight;
   }
 
   double area()
   {
-    return _area;
+    return 4 * base * height;
   }
 };
 
@@ -129,13 +142,12 @@ int main()
 	  cin >> realHeight;
 	}
        
-	  if(input == 4)
-	    {
-	      cout << "Area: ";
-	      shapes[0] -> setArea();
-	      shapes[0] -> area();
-	      break;
-	    }
+       if(input == 4)
+	 {
+	   cout << "Area: ";
+	   cout <<  shapes[0] -> area() << '\n';
+	   break;
+	 }
     }
   return 0;
 }//main
