@@ -31,14 +31,13 @@ public:
 
   void printDescription()
   {
+    cout << "Truck's owner: " << owner << endl;
     if (beeb == 0)
       {
-	cout << "Truck's owner: " << owner << endl;
 	cout << "Honk the horn: false" << endl;
       }
     else
       {
-	cout << "Truck's owner: " << owner << endl;
 	cout << "Honk the horn: true" << endl;
       }
   }
