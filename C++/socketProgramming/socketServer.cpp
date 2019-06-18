@@ -9,53 +9,45 @@ using namespace std;
 
 int main()
 {
-   //Create a socket
-  int _socket = socket(AF_INET, SOCK_STREAM, 0);//end connection port for server
+  bool check = true;//determines whether program has ended
+  
+  int _socket = socket(AF_INET, SOCK_STREAM, 0);//server socket created
 
-  //Bind the socket to an IP / port
-  sockaddr_in handle;//sockaddr_in is a struct that contains an internet address. It is used for sockets
+  sockaddr_in handle;//ip address and port that will eventually be binded to server
  
-  handle.sin_port = htons(54000);//htons changes the host byte order itno network byte order. Essentially, 54000 gets changed to network ip address. 54000 represents a private port
-
-  if (bind(_socket, (sockaddr*)&handle, sizeof(handle)) == -1)//binds identification information to the server socket
+  handle.sin_port = htons(54000);//change port for server from host byte order to network byte order(always big endian). 54000 is an arbitrary port in this program
+  
+  int _bind = bind(_socket, (sockaddr*)&handle, sizeof(handle));//server socket now holds an ip address and port
+  if(_bind == -1)
     {
-      cerr << "Error.  Can't bind to IP port";
-      return -1;
-    }
-
-  //Mark socket listening in
-   if (listen(_socket, SOMAXCONN) == -1)
-    {
-      cerr << "Error. Server can't listen";
+      cerr << "Error. IP is not binded to server socket";
       return -1;
     }
   
-  //Accepting a call from a client
-  sockaddr_in _client;//Internet address of client; in network byte order/big endian
+  int _listen = listen(_socket, SOMAXCONN);//Server listening for SOMAXCONN connections that could be made to the its socket. SOMAXCONN is the maximum number of connections that are allowed to be passed to listen(), which is defined to be 128.
+  if (_listen == -1)
+    {
+      cerr << "Error. Server can't listen for any connections";
+      return -1;
+    }
+
+
+  sockaddr_in _client;//Internet address and port of whatever is connecting to server socket; 
   socklen_t clientSize = sizeof(_client);
-  char host[NI_MAXHOST];//Maximum size of host length buffer(buffer means storage)
-  char svc[NI_MAXSERV];//Maximum size of server length buffer
+  char host[NI_MAXHOST];//Maximum size of host length buffer. Will hold host name
+  char server[NI_MAXSERV];//Maximum size of server length buffer. Will hold service name
   
-  int clientSocket = accept(_socket, (sockaddr*) &_client, &clientSize);//clientSocket is accepting the thread made to the server socket
+  int dataSocket = accept(_socket, (sockaddr*) &_client, &clientSize);//transfers data from any incoming connections to  server socket.
 
-  int result = getnameinfo((sockaddr*)&_client, clientSize, host, NI_MAXHOST, svc, NI_MAXSERV, 0);//Socket address structure to hostname and service name. Produces host name, which is the name of the computer.  If equal to 0, then function has failed
+  int name = getnameinfo((sockaddr*)&_client, clientSize, host, NI_MAXHOST, server, NI_MAXSERV, 0);//Retrieve hostname and service name.  Host name is stored in host and service name is stored in svc.
 
-  //if-else statement is actual connection process I think(check and make sure and verify)
-   if (result != 0)
-    {
-      cout << host << " Connected on " << svc << endl;
-    }
-   else
-    {
-      inet_ntop(AF_INET, &_client.sin_addr,host, NI_MAXHOST);//converts from network format to presentation format such that it can be displayed. Presentation format will be a string. Same as inet_ntoa except it extends to being compatible with multiple address families. Essentially it converts the Internet host address in, given in network byte order(big endian byte order, which is essentiall where numbers in ip address are decreasing, or in other words, highest byte first), to a string in IPv4 dotted-decimal notation(ddd.ddd.ddd.ddd).
-      cout << host << "connected on" << ntohs(_client.sin_port) << endl;
-    }
-  
-  char buf[4096];//buffer
-  while (true)
+  cout << host << " connected on " << ntohs(_client.sin_port) << endl;
+
+  char buf[4096];//buffer that stores received bytes from the client. Will store the string received from the client
+  while (check != false)
     {
       memset(buf, 0, 4096);//Resets buffer with 0's for every iteration of the while loop such that current input doesn't get concatinated with previous input  
-      int bytesReceiver = recv(clientSocket, buf, 4096, 0);//receive a message from a socket
+      int bytesReceiver = recv(dataSocket, buf, 4096, 0);//used for server socket to receive socket. Length of message in bytes
 
       if (bytesReceiver == -1)//for if user terminates window in which telnet is being used
 	{
@@ -63,17 +55,14 @@ int main()
 	  break;
 	}
 
-       if (bytesReceiver == 0)
+      if (check != false)
 	{
-	  cout << "The client disconnected" << endl;
-	  break;
-	}
+	  //displays message. string(buf, 0, bytesReceiver) is a substring that will in reality hold the full length of the strings inputted from the client
+	  cout << "received: " << string(buf, 0, bytesReceiver) << endl;
       
-      //display message
-      cout << "received: " << string(buf, 0, bytesReceiver) << endl;
-
-      //resend message
-      send(clientSocket, buf, bytesReceiver + 1, 0);
+	  //sends message. Message stored in buf will be transmitted with a length of byteReceiver.
+	  send(dataSocket, buf, bytesReceiver, 0);
+	}
     }
 
   return 0;
