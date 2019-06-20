@@ -7,17 +7,24 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
+  int portNumber = 54000;
+
+  if (argc >= 2)//used to change port to first input parameter via terminal/command line
+    {
+      portNumber = atoi(argv[1]);
+    }
+
   bool check = true;//determines whether program has ended
   
   int _socket = socket(AF_INET, SOCK_STREAM, 0);//server socket created
 
-  sockaddr_in handle;//ip address and port that will eventually be binded to server
+  sockaddr_in handleServer;//ip address and port that will eventually be binded to server
  
-  handle.sin_port = htons(54000);//change port for server from host byte order to network byte order(always big endian). 54000 is an arbitrary port in this program
+  handleServer.sin_port = htons(portNumber);//change port for server from host byte order to network byte order(always big endian).
   
-  int _bind = bind(_socket, (sockaddr*)&handle, sizeof(handle));//server socket now holds an ip address and port
+  int _bind = bind(_socket, (sockaddr*)&handleServer, sizeof(handleServer));//server socket now holds an ip address and port
   if(_bind == -1)
     {
       cerr << "Error. IP is not binded to server socket";
@@ -30,7 +37,6 @@ int main()
       cerr << "Error. Server can't listen for any connections";
       return -1;
     }
-
 
   sockaddr_in _client;//Internet address and port of whatever is connecting to server socket; 
   socklen_t clientSize = sizeof(_client);
